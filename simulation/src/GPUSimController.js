@@ -1,6 +1,7 @@
 import Arch from 'arch/Arch.js';
 import FullSystemSim from 'sim/FullSystemSim.js';
 import gpuTest from 'tests/gpuTest.js';
+import {Vector, Dimensions} from 'utils/Utils.js';
 
 const FRAME_INTERVAL = 1000.0 / 60.0;
 

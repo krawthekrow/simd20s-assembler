@@ -13,5 +13,5 @@ class TouchInputBufferSim {
 	}
 };
 
-module.expots = TouchInputBufferSim;
+module.exports = TouchInputBufferSim;
 

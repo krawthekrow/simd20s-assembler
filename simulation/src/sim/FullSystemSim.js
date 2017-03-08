@@ -2,6 +2,7 @@ import ScreenSim from 'sim/ScreenSim.js';
 import GPUSim from 'sim/GPUSim.js';
 import CPUSim from 'sim/CPUSim.js';
 import GraphicsBufferSim from 'sim/GraphicsBufferSim.js';
+import TouchInputBufferSim from 'sim/TouchInputBufferSim.js';
 import DebugUtils from 'sim/DebugUtils.js';
 
 class FullSystemSim {
