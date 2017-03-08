@@ -5,26 +5,41 @@ GPU main
 
 4: super-opcode (truth table)
 
-[?????ttttccbb1111122222ewwwww]
-[?????ttttccbbdddddgcf____cccc]
+[ooooottttccbb1111122222ewwwww]
+[ooooottttccbbddddd0000gcfcccc]
 [87777666655554444333322221111]
 
-super-opcode = 0000 (draw to screen):
-	1: update graphics buffer
+opcode: 5
+
+opcode = 01000 (JMP, temporary):
+	10: jump dest
+
+opcode = 10000 (GPU):
+
+super-opcode = 0000 (write to external buffer):
 	5: data reg
 	2: coreshift
 	2: bitshift
-	1: update colour
-	5: colour
-	1: flush screen buffer
-super-opcode = 1111:
+	5: external buffer address
+	addr = 0000x (screen):
+		1: update graphics buffer
+		1: update colour
+		5: colour
+		1: flush screen buffer
+super-opcode = 1111 (write from external buffer):
+	5: write reg
+	1: write enable
+	5: external buffer address
+	addr = 00000 (touch input):
 else:
-	5: wb reg
+	5: write reg
 	1: write enable
 	5: reg1
 	5: reg2
 	2: coreshift
 	2: bitshift
+
+
 
 GPU main (old)
 ==============

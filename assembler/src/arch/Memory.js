@@ -1,6 +1,9 @@
 class Memory {
 };
 
+Memory.SCREEN = 0b00000;
+Memory.TOUCH_GPU = 0b00000;
+
 Memory.MAIN_RAM_BASE = 0x000;
 Memory.MAIN_RAM_SIZE = 1 << 10;
 Memory.EXTERNAL_RAM_BASE = 0x400;

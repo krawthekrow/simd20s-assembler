@@ -49,7 +49,6 @@ class GPUSim {
 				else if(bitshiftDir == 1) columnVal >>= 1;
 				reg1Val[i] = columnVal;
 			}
-			console.log(truthTable);
 			const reg2Val = this.regs[reg2];
 			const result = new Uint32Array(Arch.GPU_REG_WIDTH).fill(0);
 			for(let i = 0; i < Arch.GPU_REG_WIDTH; i++){

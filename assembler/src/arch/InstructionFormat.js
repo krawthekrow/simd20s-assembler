@@ -15,7 +15,7 @@ InstructionFormat.IMM_MIN = -(1 << (InstructionFormat.IMM_WIDTH - 1));
 
 
 InstructionFormat.GPU_WRITE_REG_OFFSET = 0;
-InstructionFormat.GPU_WRITE_ENABLE_FLAG_OFFSET = 5;
+InstructionFormat.GPU_WRITE_ENABLE_OFFSET = 5;
 InstructionFormat.GPU_REG2_OFFSET = 6;
 InstructionFormat.GPU_REG1_OFFSET = 11;
 InstructionFormat.GPU_BITSHIFT_DIR_OFFSET = 16;
@@ -29,9 +29,8 @@ InstructionFormat.GPU_OPCODE_LENGTH = 4;
 
 InstructionFormat.SCREEN_COLOUR_OFFSET = 0;
 InstructionFormat.SCREEN_COLOUR_LENGTH = 4;
-InstructionFormat.SCREEN_FLUSH_FLAG_OFFSET = 8;
-InstructionFormat.SCREEN_UPDATE_COLOUR_FLAG_OFFSET = 9;
-InstructionFormat.SCREEN_UPDATE_GRAPHICS_BUFFER_FLAG_OFFSET = 10;
-InstructionFormat.SCREEN_OPCODE = 0b0000;
+InstructionFormat.SCREEN_FLUSH_FLAG_OFFSET = 4;
+InstructionFormat.SCREEN_UPDATE_COLOUR_FLAG_OFFSET = 5;
+InstructionFormat.SCREEN_UPDATE_GRAPHICS_BUFFER_FLAG_OFFSET = 6;
 
 module.exports = InstructionFormat;

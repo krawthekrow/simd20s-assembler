@@ -27,6 +27,18 @@ const makeLiteralBinInt = (val, loc) => {
 "/*"(.|\n)*"*/"	/* block comments */
 \s+				/* skip whitespace */
 
+","				return ',';
+"."				return '.';
+":"				return ':';
+"("				return '(';
+")"				return ')';
+"{"				return '{';
+"}"				return '}';
+"["				return '[';
+"]"				return ']';
+"~"				return '~';
+"_"				return '_';
+
 "macro"			return 'MACRO';
 "alias"			return 'ALIAS';
 "rep"			return 'REP';
@@ -61,16 +73,6 @@ const makeLiteralBinInt = (val, loc) => {
 
 [_a-zA-Z0-9]+	return 'IDENTIFIER';
 
-","				return ',';
-"."				return '.';
-":"				return ':';
-"("				return '(';
-")"				return ')';
-"{"				return '{';
-"}"				return '}';
-"["				return '[';
-"]"				return ']';
-"~"				return '~';
 <<EOF>>			return 'EOF';
 .				return 'INVALID';
 
@@ -115,7 +117,7 @@ statement
 		{
 			$$ = {
 				type: 'label',
-				name: identifier,
+				name: $1,
 				loc: getloc(@1)
 			};
 		}
@@ -330,7 +332,7 @@ gpu_reg_with_modifiers_or_placeholder
 	;
 
 placeholder
-	: '~'
+	: '_'
 		{
 			$$ = {
 				type: 'placeholder'

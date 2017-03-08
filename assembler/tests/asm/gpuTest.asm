@@ -26,5 +26,5 @@ alias col_RED 0xE
 alias col_BLACK 0xF
 
 gpu fill g0
-gpu mov g1 g0[l]
-screen ~ col_RED flush
+gpu mov g0 g0[l]
+screen _ col_RED flush
