@@ -12,10 +12,29 @@ class GPUSimGUI extends React.Component {
 			this.SCREEN_CANVAS_DIMS
 		);
 	}
+	getCanvasMousePos(ev){
+		const canvasRect = canvas.getBoundingClientRect();
+		return new Vector(
+			ev.clientX - canvasRect.left,
+			ev.clientY - canvasRect.top
+		);
+	}
 	componentDidMount(){
-		this.screenCtx = this.screenCanvas.getContext('2d');
 		this.controller = new GPUSimController(this.screenCtx, this.SCREEN_BOUNDING_RECT);
+		this.screenCtx = this.screenCanvas.getContext('2d');
+		this.screenCanvas.addEventListener('mousedown', ev => {
+			this.GPUSimController.handleMouseDown(getCanvasMousePos(ev));
+		});
+		this.screenCanvas.addEventListener('mouseup', ev => {
+			this.GPUSimController.handleMouseUp();
+		});
+		this.screenCanvas.addEventListener('mousemove', ev => {
+			this.GPUSimController.handleMouseMove(getCanvasMousePos(ev));
+		});
 		this.controller.startSim();
+
+	}
+	componentWillUnmount(){
 	}
 	render(){
 		return (

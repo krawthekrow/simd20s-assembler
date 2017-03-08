@@ -10,6 +10,8 @@ class GPUSimController {
 		this.sim.loadProgram(gpuTest.map(str => (parseInt(str, 2) & (~ Arch.RAY_BIT))));
 		this.prevFrameTime = 0;
 		this.simRunning = false;
+		this.isMouseDown = false;
+		this.mousePos = new Vector(0, 0);
 		this.debug_cycle_countdown = 3;
 	}
 	startSim(){
@@ -18,6 +20,7 @@ class GPUSimController {
 		requestAnimationFrame(() => this.updateSimWrapper());
 	}
 	updateSim(){
+		if(this.isMouseDown) this.sim.handleTouch(this.mousePos);
 		this.sim.runCycle();
 		this.debug_cycle_countdown--;
 		if(this.debug_cycle_countdown == 0) this.stopSim();
@@ -34,6 +37,16 @@ class GPUSimController {
 	}
 	stopSim(){
 		this.simRunning = false;
+	}
+	handleMouseDown(mousePos){
+		this.isMouseDown = true;
+		this.mousePos = mousePos;
+	}
+	handleMouseUp(){
+		this.isMouseDown = false;
+	}
+	handleMouseMove(mousePos){
+		this.mousePos = mousePos;
 	}
 };
 

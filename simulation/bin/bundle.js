@@ -88,16 +88,36 @@ var GPUSim =
 		}
 	
 		_createClass(GPUSimGUI, [{
+			key: 'getCanvasMousePos',
+			value: function getCanvasMousePos(ev) {
+				var canvasRect = canvas.getBoundingClientRect();
+				return new _Utils.Vector(ev.clientX - canvasRect.left, ev.clientY - canvasRect.top);
+			}
+		}, {
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				this.screenCtx = this.screenCanvas.getContext('2d');
+				var _this2 = this;
+	
 				this.controller = new _GPUSimController2.default(this.screenCtx, this.SCREEN_BOUNDING_RECT);
+				this.screenCtx = this.screenCanvas.getContext('2d');
+				this.screenCanvas.addEventListener('mousedown', function (ev) {
+					_this2.GPUSimController.handleMouseDown(getCanvasMousePos(ev));
+				});
+				this.screenCanvas.addEventListener('mouseup', function (ev) {
+					_this2.GPUSimController.handleMouseUp();
+				});
+				this.screenCanvas.addEventListener('mousemove', function (ev) {
+					_this2.GPUSimController.handleMouseMove(getCanvasMousePos(ev));
+				});
 				this.controller.startSim();
 			}
 		}, {
+			key: 'componentWillUnmount',
+			value: function componentWillUnmount() {}
+		}, {
 			key: 'render',
 			value: function render() {
-				var _this2 = this;
+				var _this3 = this;
 	
 				return _react2.default.createElement(
 					'div',
@@ -105,7 +125,7 @@ var GPUSim =
 					_react2.default.createElement(
 						'canvas',
 						{ key: 'mainCanvas', width: this.SCREEN_CANVAS_DIMS.width, height: this.SCREEN_CANVAS_DIMS.height, style: { marginTop: '10px', marginBottom: '40px' }, ref: function ref(canvas) {
-								_this2.screenCanvas = canvas;
+								_this3.screenCanvas = canvas;
 							} },
 						'It\'s about time you upgrade your browser.'
 					)
@@ -475,6 +495,8 @@ var GPUSim =
 			}));
 			this.prevFrameTime = 0;
 			this.simRunning = false;
+			this.isMouseDown = false;
+			this.mousePos = new Vector(0, 0);
 			this.debug_cycle_countdown = 3;
 		}
 	
@@ -492,6 +514,7 @@ var GPUSim =
 		}, {
 			key: 'updateSim',
 			value: function updateSim() {
+				if (this.isMouseDown) this.sim.handleTouch(this.mousePos);
 				this.sim.runCycle();
 				this.debug_cycle_countdown--;
 				if (this.debug_cycle_countdown == 0) this.stopSim();
@@ -516,6 +539,22 @@ var GPUSim =
 			key: 'stopSim',
 			value: function stopSim() {
 				this.simRunning = false;
+			}
+		}, {
+			key: 'handleMouseDown',
+			value: function handleMouseDown(mousePos) {
+				this.isMouseDown = true;
+				this.mousePos = mousePos;
+			}
+		}, {
+			key: 'handleMouseUp',
+			value: function handleMouseUp() {
+				this.isMouseDown = false;
+			}
+		}, {
+			key: 'handleMouseMove',
+			value: function handleMouseMove(mousePos) {
+				this.mousePos = mousePos;
 			}
 		}]);
 	
@@ -571,9 +610,12 @@ var GPUSim =
 			this.gpu = new _GPUSim2.default();
 			this.cpu = new _CPUSim2.default();
 			this.graphicsBuffer = new _GraphicsBufferSim2.default();
+			this.touchInputBuffer = new TouchInputBufferSim();
+	
 			this.gpu.attachGraphicsBuffer(this.graphicsBuffer);
 			this.cpu.attachScreen(this.screen);
 			this.cpu.attachGPU(this.gpu);
+	
 			this.screen.flush();
 		}
 	
@@ -614,6 +656,11 @@ var GPUSim =
 				this.gpu.runCycle();
 				this.screen.inputBuffer = this.graphicsBuffer.get();
 				this.screen.runCycle();
+			}
+		}, {
+			key: 'handleTouch',
+			value: function handleTouch(mousePos) {
+				this.touchInputBuffer.handleTouch(this.screen.convertMousePosToPixCoords(mousePos));
 			}
 		}]);
 	
@@ -708,6 +755,11 @@ var GPUSim =
 					}
 				}
 				if (flush) this.flush();
+			}
+		}, {
+			key: 'convertMousePosToPixCoords',
+			value: function convertMousePosToPixCoords(mousePos) {
+				return new _Utils.Vector(Math.floor(mousePos.x / this.pixDims.width), Math.floor(mousePos.y / this.pixDims.height));
 			}
 		}]);
 	

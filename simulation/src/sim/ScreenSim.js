@@ -80,6 +80,12 @@ class ScreenSim {
 		}
 		if(flush) this.flush();
 	}
+	convertMousePosToPixCoords(mousePos){
+		return new Vector(
+			Math.floor(mousePos.x / this.pixDims.width),
+			Math.floor(mousePos.y / this.pixDims.height)
+		);
+	}
 };
 
 module.exports = ScreenSim;

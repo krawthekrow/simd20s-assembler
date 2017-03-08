@@ -10,9 +10,12 @@ class FullSystemSim {
 		this.gpu = new GPUSim();
 		this.cpu = new CPUSim();
 		this.graphicsBuffer = new GraphicsBufferSim();
+		this.touchInputBuffer = new TouchInputBufferSim();
+		
 		this.gpu.attachGraphicsBuffer(this.graphicsBuffer);
 		this.cpu.attachScreen(this.screen);
 		this.cpu.attachGPU(this.gpu);
+
 		this.screen.flush();
 	}
 	loadProgram(binary){
@@ -25,6 +28,11 @@ class FullSystemSim {
 		this.gpu.runCycle();
 		this.screen.inputBuffer = this.graphicsBuffer.get();
 		this.screen.runCycle();
+	}
+	handleTouch(mousePos){
+		this.touchInputBuffer.handleTouch(
+			this.screen.convertMousePosToPixCoords(mousePos)
+		);
 	}
 };
 
