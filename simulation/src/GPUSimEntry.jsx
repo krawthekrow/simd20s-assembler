@@ -12,8 +12,8 @@ class GPUSimGUI extends React.Component {
 			this.SCREEN_CANVAS_DIMS
 		);
 	}
-	getCanvasMousePos(ev){
-		const canvasRect = canvas.getBoundingClientRect();
+	getScreenCanvasMousePos(ev){
+		const canvasRect = this.screenCanvas.getBoundingClientRect();
 		return new Vector(
 			ev.clientX - canvasRect.left,
 			ev.clientY - canvasRect.top
@@ -22,19 +22,25 @@ class GPUSimGUI extends React.Component {
 	componentDidMount(){
 		this.screenCtx = this.screenCanvas.getContext('2d');
 		this.controller = new GPUSimController(this.screenCtx, this.SCREEN_BOUNDING_RECT);
-		this.screenCanvas.addEventListener('mousedown', ev => {
-			this.GPUSimController.handleMouseDown(getCanvasMousePos(ev));
-		});
-		this.screenCanvas.addEventListener('mouseup', ev => {
-			this.GPUSimController.handleMouseUp();
-		});
-		this.screenCanvas.addEventListener('mousemove', ev => {
-			this.GPUSimController.handleMouseMove(getCanvasMousePos(ev));
-		});
+		this.handleMouseDown = ev => {
+			this.controller.handleMouseDown(this.getScreenCanvasMousePos(ev));
+		};
+		this.handleMouseUp = ev => {
+			this.controller.handleMouseUp();
+		};
+		this.handleMouseMove = ev => {
+			this.controller.handleMouseMove(this.getScreenCanvasMousePos(ev));
+		};
+		this.screenCanvas.addEventListener('mousedown', this.handleMouseDown);
+		this.screenCanvas.addEventListener('mouseup', this.handleMouseUp);
+		this.screenCanvas.addEventListener('mousemove', this.handleMouseMove);
 		this.controller.startSim();
 
 	}
 	componentWillUnmount(){
+		this.screenCanvas.removeEventListener('mousedown', this.handleMouseDown);
+		this.screenCanvas.removeEventListener('mouseup', this.handleMouseUp);
+		this.screenCanvas.removeEventListener('mousedown', this.handleMouseMove);
 	}
 	render(){
 		return (
