@@ -1,4 +1,6 @@
 *.vim
 *.sh
 *.swp
-tests/
+/simulation/node_modules/
+/simulation/bin/
+/assember/tests/bin/
