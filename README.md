@@ -1,8 +1,6 @@
-Assembler for the upcoming SIMD16S (an SIMD unit made in The Powder Toy). Still under development and very unstable.
+Assembler for the upcoming SIMD20S (an SIMD unit made in The Powder Toy). Still under development and very unstable. This is a fork of [SIMD16S's assembler](https://github.com/krawthekrow/simd16s-assembler), which has been abandoned for obvious reasons.
 
-Access SIMD16S [here](http://powdertoy.co.uk/Browse/View.html?ID=2046454). I have yet to make a controller for it, so it can only process GPU operations now.
-
-See arch_docs.txt for sketchy details on the SIMD16S architecture (along with a lot of other future plans). See gpuTest.asm for an example of what code is presently supported by the assembler. That's the code used for the demo in the Powder Toy demo save.
+See arch_docs.txt for sketchy details on the SIMD20S architecture (along with a lot of other future plans).
 
 To use:
 

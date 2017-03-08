@@ -3,6 +3,32 @@ Number of bits: description
 GPU main
 ========
 
+4: super-opcode (truth table)
+
+[?????ttttccbb1111122222ewwwww]
+[?????ttttccbbdddddgcf____cccc]
+[87777666655554444333322221111]
+
+super-opcode = 0000 (draw to screen):
+	1: update graphics buffer
+	5: data reg
+	2: coreshift
+	2: bitshift
+	1: update colour
+	5: colour
+	1: flush screen buffer
+super-opcode = 1111:
+else:
+	5: wb reg
+	1: write enable
+	5: reg1
+	5: reg2
+	2: coreshift
+	2: bitshift
+
+GPU main (old)
+==============
+
 [fOoopcc1111ccbbuu2222ttttwwww]
 [87777666655554444333322221111]
 [18421842184218421842184218421]
@@ -39,6 +65,20 @@ regmode = 11 (uniform in-core):
 
 total: 25
 
+GPU bit table
+=============
+
+AB
+00|0000000011111111
+01|0000111100001111
+10|0011001100110011
+11|0101010101010101
+===================
+ov|10000000
+ft|71361072
+~A|00001000
+~C|0000000011111111
+
 GPU controller
 ==============
 
@@ -72,17 +112,20 @@ Special registers:
 	1111: XP
 
 ARITH:
-[ooooouffff21111122222222ddddd]
+[ooooou1111__________2222ddddd]
+[ooooouffff21111122222222ddddd] xx
 Jcc:
-[ooooooffff___ir_jjjjjjjjjjjjj]
+[ooooooir_jjjjjjjjjjjjj___ffff]
+[ooooooffff___ir_jjjjjjjjjjjjj] xx
 JAL
-[ooooooddddd__irfjjjjjjjjjjjjj]
+[ooooooirfjjjjjjjjjjjjj__ddddd]
+[ooooooddddd__irfjjjjjjjjjjjjj] xx
 BOOL
-[oooooocccc_____f________ddddd]
+[oooooo__fcccc___________ddddd]
 LOOP
 [oooooossssscccccsjjjjjjjjjjjj]
 MEM
-[ooooooffffobbbbbboooooo_ddddd]
+[ooooouffffobbbbbboooooo_ddddd]
 MEML
 [ooooooffffwwwwwwwwwwwwwwddddd]
 MEMC
